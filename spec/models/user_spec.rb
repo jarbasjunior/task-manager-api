@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before { @user = FactoryBot.build(:user) }
+  let(:user) { build(:user) }
 
-  it { expect(@user).to respond_to(:id) }
-  it { expect(@user).to respond_to(:email) }
-  it { expect(@user).to respond_to(:password) }
-  it { expect(@user).to respond_to(:password_confirmation) }
-  it { expect(@user).to respond_to(:created_at) }
-  it { expect(@user).to respond_to(:updated_at) }
-  it { expect(@user).to be_valid }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+  it { is_expected.to validate_confirmation_of(:password) }
+  it { is_expected.to allow_value('email@email.com').for(:email) }
 end
