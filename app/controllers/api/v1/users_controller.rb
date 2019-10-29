@@ -12,12 +12,10 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    begin
-      user = User.find(params[:id])
-      respond_with user
-    rescue
-      head 404
-    end
+    user = User.find(params[:id])
+    respond_with user
+  rescue StandardError
+    head 404
   end
 
   private
