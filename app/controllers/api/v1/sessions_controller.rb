@@ -14,14 +14,11 @@ class Api::V1::SessionsController < ApplicationController
 
   def destroy
     user = User.find_by(auth_token: params[:id])
-    byebug
     user.generate_authentication_token!
-    byebug
     user.save
-    byebug
     head 204
-    byebug
   end
+
   private
 
   def session_params
