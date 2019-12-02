@@ -30,7 +30,7 @@ RSpec.describe 'Task API' do
   describe 'GET /tasks/:id' do
     let(:task) { create(:task, user_id: user.id) }
 
-    before { get "/tasks/#{task.id}", params: {}, headers: headers}
+    before { get "/tasks/#{task.id}", params: {}, headers: headers }
 
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
@@ -79,6 +79,46 @@ RSpec.describe 'Task API' do
 
       it 'returns the json error for the title' do
         expect(json_body[:errors]).to have_key(:title)
+      end
+    end
+  end
+
+  describe 'PUT /tasks/:id' do
+    let!(:task) { create(:task, user_id: user.id) }
+
+    before do
+      put "/tasks/#{task.id}", params: { task: task_params }.to_json, headers: headers
+    end
+
+    context 'when the params are valid' do
+      let(:task_params) { { title: 'New task title' } }
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns the json for updated task' do
+        expect(json_body[:title]).to eq(task_params[:title])
+      end
+
+      it 'updates the task in the database' do
+        expect(Task.find_by(title: task_params[:title])).not_to be_nil
+      end
+    end
+
+    context 'when the params are not valid' do
+      let(:task_params) { { title: ' ' }}
+
+      it 'return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns the json error for title' do
+        expect(json_body[:errors]).to have_key(:title)
+      end
+
+      it 'does not update the task in the database' do
+        expect(Task.find_by(title: task_params[:title])).to be_nil
       end
     end
   end
