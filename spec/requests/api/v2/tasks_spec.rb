@@ -4,11 +4,14 @@ RSpec.describe 'Task API' do
   before { host! 'api.taskmanager.test' }
 
   let!(:user) { create(:user) }
+  let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
       'Accept' => 'application/vnd.taskmanager.v2',
       'Content-Type' => Mime[:json].to_s,
-      'Authorization' => user.auth_token
+      'client' => auth_data['client'],
+      'uid' => auth_data['uid'],
+      'access-token' => auth_data['access-token']
     }
   end
 

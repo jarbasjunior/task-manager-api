@@ -1,5 +1,5 @@
 class Api::V2::TasksController < Api::V2::BaseController
-  before_action :authenticate_with_token!
+  before_action :authenticate_user!
 
   def create
     task = current_user.tasks.build(task_params)
