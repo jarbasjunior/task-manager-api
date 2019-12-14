@@ -10,31 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_191_202_011_622) do
-  create_table 'tasks', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
-    t.string 'title'
-    t.text 'description'
-    t.boolean 'done', default: false
-    t.datetime 'deadline'
-    t.bigint 'user_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['user_id'], name: 'index_tasks_on_user_id'
+ActiveRecord::Schema.define(version: 2019_12_14_092220) do
+
+  create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.boolean "done", default: false
+    t.datetime "deadline"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
-  create_table 'users', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
-    t.string 'email', default: '', null: false
-    t.string 'encrypted_password', default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'auth_token'
-    t.index ['auth_token'], name: 'index_users_on_auth_token', unique: true
-    t.index ['email'], name: 'index_users_on_email', unique: true
-    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "auth_token"
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.boolean "allow_password_change", default: false
+    t.string "name"
+    t.text "tokens"
+    t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key 'tasks', 'users'
+  add_foreign_key "tasks", "users"
 end

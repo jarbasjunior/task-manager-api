@@ -55,6 +55,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'awesome_print'
 gem 'devise'
+gem 'devise_token_auth'
 gem 'hirb'
+gem 'omniauth'
 gem 'ransack'
 gem 'rubocop'
